@@ -4,8 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HCL.CommentServer.API", "HCL.CommentServer.API\HCL.CommentServer.API.csproj", "{695C287D-51FD-4189-92AA-45F710CD4DA7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{232D0D89-BDCF-4725-9EE6-ED77E86E36E9} = {232D0D89-BDCF-4725-9EE6-ED77E86E36E9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HCL.CommentServer.API.Domain", "HCL.CommentServer.API.Domain\HCL.CommentServer.API.Domain.csproj", "{3E55C7BD-3259-47B8-AE0C-A50118D4F10D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HCL.CommentServer.API.DAL", "HCL.CommentServer.API.DAL\HCL.CommentServer.API.DAL.csproj", "{232D0D89-BDCF-4725-9EE6-ED77E86E36E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +26,10 @@ Global
 		{3E55C7BD-3259-47B8-AE0C-A50118D4F10D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E55C7BD-3259-47B8-AE0C-A50118D4F10D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E55C7BD-3259-47B8-AE0C-A50118D4F10D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{232D0D89-BDCF-4725-9EE6-ED77E86E36E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{232D0D89-BDCF-4725-9EE6-ED77E86E36E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{232D0D89-BDCF-4725-9EE6-ED77E86E36E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{232D0D89-BDCF-4725-9EE6-ED77E86E36E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
