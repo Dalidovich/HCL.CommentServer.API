@@ -1,6 +1,5 @@
 ﻿using HCL.CommentServer.API.BLL.Interfaces;
 using HCL.CommentServer.API.DAL.Repositories.Interfaces;
-using HCL.CommentServer.API.Domain.DTO;
 using HCL.CommentServer.API.Domain.Entities;
 using HCL.CommentServer.API.Domain.Enums;
 using HCL.CommentServer.API.Domain.InnerResponse;
@@ -16,9 +15,9 @@ namespace HCL.CommentServer.API.BLL.Services
             _commentRepository = commentRepository;
         }
 
-        public async Task<BaseResponse<Comment>> CreateComment(CommentDTO commentDTO)
+        public async Task<BaseResponse<Comment>> CreateComment(Comment comment)
         {
-            var createdRelationship = await _commentRepository.AddAsync(new Comment(commentDTO));
+            var createdRelationship = await _commentRepository.AddAsync(comment);
             await _commentRepository.SaveAsync();
 
             return new StandartResponse<Comment>()
