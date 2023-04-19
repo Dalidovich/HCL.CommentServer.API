@@ -38,6 +38,7 @@ namespace HCL.CommentServer.API.Controllers
         {
             var comment = await _commentService.GetCommentOData().Data
                 ?.Where(x => x.Id == id)
+                .AsNoTracking()
                 .SingleOrDefaultAsync();
             if (comment == null)
             {
@@ -60,6 +61,7 @@ namespace HCL.CommentServer.API.Controllers
         {
             var relation = await _commentService.GetCommentOData().Data
                 ?.Where(x => x.Id == id)
+                .AsNoTracking()
                 .SingleOrDefaultAsync();
             if (relation == null)
             {

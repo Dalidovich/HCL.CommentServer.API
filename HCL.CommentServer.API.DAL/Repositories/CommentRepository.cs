@@ -1,5 +1,6 @@
 ﻿using HCL.CommentServer.API.DAL.Repositories.Interfaces;
 using HCL.CommentServer.API.Domain.Entities;
+using System.Security.Cryptography.X509Certificates;
 
 namespace HCL.CommentServer.API.DAL.Repositories
 {

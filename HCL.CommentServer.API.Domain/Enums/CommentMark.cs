@@ -4,6 +4,6 @@
     {
         Normal = 0,
         Good = 1,
-        Bad = 1
+        Bad = 2
     }
 }
