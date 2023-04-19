@@ -22,5 +22,10 @@ namespace HCL.CommentServer.API.Domain.Entities
             Mark = commentDTO.Mark ?? 0;
             CreatedDate = DateTime.Now;
         }
+
+        public Comment(Guid? id)
+        {
+            Id = id;
+        }
     }
 }
