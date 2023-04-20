@@ -15,9 +15,9 @@ namespace HCL.CommentServer.API.Domain.Entities
         {
         }
 
-        public Comment(CommentDTO commentDTO)
+        public Comment(CommentDTO commentDTO, Guid accountId)
         {
-            AccountId = commentDTO.AccountId;
+            this.AccountId = accountId;
             Content = commentDTO.Content;
             Mark = commentDTO.Mark ?? 0;
             CreatedDate = DateTime.Now;

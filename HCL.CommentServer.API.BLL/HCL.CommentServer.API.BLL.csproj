@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HCL.CommentServer.API.DAL\HCL.CommentServer.API.DAL.csproj" />
     <ProjectReference Include="..\HCL.CommentServer.API.Domain\HCL.CommentServer.API.Domain.csproj" />
   </ItemGroup>

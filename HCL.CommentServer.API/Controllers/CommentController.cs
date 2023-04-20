@@ -13,23 +13,9 @@ namespace HCL.CommentServer.API.Controllers
     {
         private readonly ICommentService _commentService;
 
-        public CommentController(ICommentService relationshipService)
+        public CommentController(ICommentService commentService)
         {
-            _commentService = relationshipService;
-        }
-
-        [Authorize]
-        [HttpPost("v1/Comment")]
-        public async Task<IActionResult> CreateRelationship([FromQuery] CommentDTO commentDTO)
-        {
-            var resourse = await _commentService.CreateComment(new Comment(commentDTO));
-            if (resourse.Data != null)
-            {
-
-                return Created("", new { commentId = resourse.Data.Id });
-            }
-
-            return NotFound();
+            _commentService = commentService;
         }
 
         [Authorize]

@@ -10,13 +10,13 @@ namespace HCL.CommentServer.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
             builder.Services.AddSingleton(builder.Configuration);
             builder.AddRepositores();
             builder.AddServices();
             builder.AddAuthProperty();
             builder.AddODataProperty();
             builder.AddHostedServices();
+            builder.AddSignalRProperty();
 
             builder.Services.AddDbContext<CommentAppDBContext>(opt => opt.UseNpgsql(
                 builder.Configuration.GetConnectionString(StandartConst.NameConnection)));
@@ -33,6 +33,7 @@ namespace HCL.CommentServer.API
                 app.UseSwaggerUI();
             }
             app.AddMiddleware();
+            app.AddSignalR();
 
             app.UseHttpsRedirection();
             app.UseAuthorization();
