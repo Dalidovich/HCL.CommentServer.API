@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace HCL.CommentServer.API.DAL
 {
-    public partial class CommentAppDBContext : DbContext
+    public class CommentAppDBContext : DbContext
     {
         public DbSet<Comment> Comments { get; set; }
 
@@ -32,10 +32,6 @@ namespace HCL.CommentServer.API.DAL
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-            OnModelCreatingPartial(modelBuilder);
         }
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
