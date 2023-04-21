@@ -1,0 +1,37 @@
+version: '3.4'
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  hcl.commentserver.api:
+    image: ${DOCKER_REGISTRY-}hclcommentserverapi
+    depends_on: 
+      - app_db_hcl_comment
+    container_name: HCL.CommentServer
+    build:
+      context: .
+      dockerfile: HCL.CommentServer.API/Dockerfile
+    environment:
+      - ConnectionStrings__NpgConnectionString=User Id=postgres; Password=pg; Server=app_db_hcl_comment; Port=5432; Database=HCL_Comment; IntegratedSecurity=true; Pooling=true;
+    networks:
+      - dev
+
+  app_db_hcl_comment: 
+    image: postgres:latest
+    container_name: app_db_hcl_comment
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pg
+      - POSTGRES_DB=HCL_Comment
+    ports:
+      - "5493:5432"
+    restart: always
+    volumes:
+      - app_data_comment:/var/lib/postgresql/data_comment
+    networks:
+      - dev
+
+volumes:
+  app_data_comment:

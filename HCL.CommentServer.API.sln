@@ -3,16 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HCL.CommentServer.API", "HCL.CommentServer.API\HCL.CommentServer.API.csproj", "{695C287D-51FD-4189-92AA-45F710CD4DA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HCL.CommentServer.API", "HCL.CommentServer.API\HCL.CommentServer.API.csproj", "{695C287D-51FD-4189-92AA-45F710CD4DA7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{232D0D89-BDCF-4725-9EE6-ED77E86E36E9} = {232D0D89-BDCF-4725-9EE6-ED77E86E36E9}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HCL.CommentServer.API.Domain", "HCL.CommentServer.API.Domain\HCL.CommentServer.API.Domain.csproj", "{3E55C7BD-3259-47B8-AE0C-A50118D4F10D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HCL.CommentServer.API.Domain", "HCL.CommentServer.API.Domain\HCL.CommentServer.API.Domain.csproj", "{3E55C7BD-3259-47B8-AE0C-A50118D4F10D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HCL.CommentServer.API.DAL", "HCL.CommentServer.API.DAL\HCL.CommentServer.API.DAL.csproj", "{232D0D89-BDCF-4725-9EE6-ED77E86E36E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HCL.CommentServer.API.DAL", "HCL.CommentServer.API.DAL\HCL.CommentServer.API.DAL.csproj", "{232D0D89-BDCF-4725-9EE6-ED77E86E36E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HCL.CommentServer.API.BLL", "HCL.CommentServer.API.BLL\HCL.CommentServer.API.BLL.csproj", "{B5847A8F-2A1A-4C83-8735-51E6FC2FEB06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HCL.CommentServer.API.BLL", "HCL.CommentServer.API.BLL\HCL.CommentServer.API.BLL.csproj", "{B5847A8F-2A1A-4C83-8735-51E6FC2FEB06}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BA97F4AA-835E-4EEB-A8C3-FA14402F4369}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +38,10 @@ Global
 		{B5847A8F-2A1A-4C83-8735-51E6FC2FEB06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5847A8F-2A1A-4C83-8735-51E6FC2FEB06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5847A8F-2A1A-4C83-8735-51E6FC2FEB06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA97F4AA-835E-4EEB-A8C3-FA14402F4369}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA97F4AA-835E-4EEB-A8C3-FA14402F4369}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA97F4AA-835E-4EEB-A8C3-FA14402F4369}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA97F4AA-835E-4EEB-A8C3-FA14402F4369}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
