@@ -4,7 +4,6 @@ using HCL.CommentServer.API.BLL.Interfaces;
 using HCL.CommentServer.API.BLL.Services;
 using HCL.CommentServer.API.DAL.Repositories;
 using HCL.CommentServer.API.DAL.Repositories.Interfaces;
-using HCL.CommentServer.API.Domain.DTO;
 using HCL.CommentServer.API.Domain.DTO.SignalRDTO;
 using HCL.CommentServer.API.Domain.Entities;
 using HCL.CommentServer.API.Middleware;
