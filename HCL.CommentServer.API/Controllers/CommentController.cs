@@ -19,7 +19,7 @@ namespace HCL.CommentServer.API.Controllers
         }
 
         [Authorize]
-        [HttpDelete("v1/OwnComment")]
+        [HttpDelete("v1/comment/account")]
         public async Task<IActionResult> DeleteComment([FromQuery] Guid ownId, [FromQuery] Guid id)
         {
             var comment = await _commentService.GetCommentOData().Data
@@ -42,14 +42,14 @@ namespace HCL.CommentServer.API.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpDelete("v1/Comment")]
+        [HttpDelete("v1/comment/admin")]
         public async Task<IActionResult> DeleteComment([FromQuery] Guid id)
         {
-            var relation = await _commentService.GetCommentOData().Data
+            var comment = await _commentService.GetCommentOData().Data
                 ?.Where(x => x.Id == id)
                 .AsNoTracking()
                 .SingleOrDefaultAsync();
-            if (relation == null)
+            if (comment == null)
             {
 
                 return NotFound();
