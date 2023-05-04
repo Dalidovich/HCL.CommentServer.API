@@ -18,11 +18,15 @@ namespace HCL.CommentServer.API.DAL.Configuration
 
             builder.Property(e => e.Id)
                    .HasColumnType(EntityDataTypes.Guid)
-                   .HasColumnName("pk_account_id");
+                   .HasColumnName("pk_comment_id");
 
             builder.Property(e => e.AccountId)
                    .HasColumnType(EntityDataTypes.Character_varying)
                    .HasColumnName("account_id");
+
+            builder.Property(e => e.ArticleId)
+                   .HasColumnType(EntityDataTypes.Character_varying)
+                   .HasColumnName("article_id");
 
             builder.Property(e => e.Mark)
                    .HasColumnType(EntityDataTypes.Character_varying)

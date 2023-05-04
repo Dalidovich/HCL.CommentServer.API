@@ -3,6 +3,7 @@ using System;
 using HCL.CommentServer.API.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HCL.CommentServer.API.DAL.Migrations
 {
     [DbContext(typeof(CommentAppDBContext))]
-    partial class CommentAppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230504131148_addColumn")]
+    partial class addColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

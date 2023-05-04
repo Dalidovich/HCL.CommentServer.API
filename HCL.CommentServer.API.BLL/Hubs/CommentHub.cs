@@ -46,7 +46,8 @@ namespace HCL.CommentServer.API.BLL.Hubs
         {
             await Clients.OthersInGroup(groupId).SendCommentInGroupAsync(commentDTO, groupId);
             Guid accountId= new(Context.User.Identities.First().FindFirst(CustomClaimType.AccountId).Value);
-            await _commentService.CreateComment(new Comment(commentDTO, accountId));
+            Guid articleId = new(groupId);
+            await _commentService.CreateComment(new Comment(commentDTO, accountId, articleId));
         }
 
         public async Task SetConnectionInGroup(string groupId)
