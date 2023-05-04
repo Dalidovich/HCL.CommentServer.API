@@ -10,14 +10,14 @@ namespace HCL.CommentServer.API.Controllers
     {
         private readonly ICommentService _commentService;
 
-        public CommentODataController(ICommentService relationshipService)
+        public CommentODataController(ICommentService commentService)
         {
-            _commentService = relationshipService;
+            _commentService = commentService;
         }
 
-        [HttpGet("odata/v1/Comment")]
+        [HttpGet("odata/v1/comment")]
         [EnableQuery]
-        public IQueryable<Comment> GetRelationship()
+        public IQueryable<Comment> GetComment()
         {
 
             return _commentService.GetCommentOData().Data;

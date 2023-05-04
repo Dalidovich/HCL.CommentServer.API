@@ -17,24 +17,24 @@ namespace HCL.CommentServer.API.BLL.Services
 
         public async Task<BaseResponse<Comment>> CreateComment(Comment comment)
         {
-            var createdRelationship = await _commentRepository.AddAsync(comment);
+            var createdComment = await _commentRepository.AddAsync(comment);
             await _commentRepository.SaveAsync();
 
             return new StandartResponse<Comment>()
             {
-                Data = createdRelationship,
+                Data = createdComment,
                 StatusCode = StatusCode.CommentCreate
             };
         }
 
         public async Task<BaseResponse<bool>> DeleteComment(Guid id)
         {
-            var createdRelationship = _commentRepository.Delete(new Comment(id));
+            var deletedComment = _commentRepository.Delete(new Comment(id));
             await _commentRepository.SaveAsync();
 
             return new StandartResponse<bool>()
             {
-                Data = createdRelationship,
+                Data = deletedComment,
                 StatusCode = StatusCode.CommentDelete
             };
         }

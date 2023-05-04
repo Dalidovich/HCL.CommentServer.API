@@ -1,6 +1,4 @@
 ﻿using HCL.CommentServer.API.BLL.Interfaces;
-using HCL.CommentServer.API.Domain.DTO;
-using HCL.CommentServer.API.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,27 +11,13 @@ namespace HCL.CommentServer.API.Controllers
     {
         private readonly ICommentService _commentService;
 
-        public CommentController(ICommentService relationshipService)
+        public CommentController(ICommentService commentService)
         {
-            _commentService = relationshipService;
+            _commentService = commentService;
         }
 
         [Authorize]
-        [HttpPost("v1/Comment")]
-        public async Task<IActionResult> CreateRelationship([FromQuery] CommentDTO commentDTO)
-        {
-            var resourse = await _commentService.CreateComment(new Comment(commentDTO));
-            if (resourse.Data != null)
-            {
-
-                return Created("", new { commentId = resourse.Data.Id });
-            }
-
-            return NotFound();
-        }
-
-        [Authorize]
-        [HttpDelete("v1/OwnComment")]
+        [HttpDelete("v1/comment/account")]
         public async Task<IActionResult> DeleteComment([FromQuery] Guid ownId, [FromQuery] Guid id)
         {
             var comment = await _commentService.GetCommentOData().Data
@@ -56,14 +40,14 @@ namespace HCL.CommentServer.API.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpDelete("v1/Comment")]
+        [HttpDelete("v1/comment/admin")]
         public async Task<IActionResult> DeleteComment([FromQuery] Guid id)
         {
-            var relation = await _commentService.GetCommentOData().Data
+            var comment = await _commentService.GetCommentOData().Data
                 ?.Where(x => x.Id == id)
                 .AsNoTracking()
                 .SingleOrDefaultAsync();
-            if (relation == null)
+            if (comment == null)
             {
 
                 return NotFound();
