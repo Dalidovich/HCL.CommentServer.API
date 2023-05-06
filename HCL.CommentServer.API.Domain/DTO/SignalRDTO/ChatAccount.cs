@@ -3,7 +3,6 @@
     public class ChatAccount
     {
         private readonly List<ChatConnection> _connections;
-        public string GroupId { set; get; }
         public string Login { get; }
 
         public ChatAccount(string login)
