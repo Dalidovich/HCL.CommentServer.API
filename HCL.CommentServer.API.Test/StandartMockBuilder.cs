@@ -1,7 +1,11 @@
-﻿using HCL.CommentServer.API.DAL.Repositories.Interfaces;
+﻿using HCL.CommentServer.API.BLL.Hubs.Interfaces;
+using HCL.CommentServer.API.DAL.Repositories.Interfaces;
+using HCL.CommentServer.API.Domain.DTO;
 using HCL.CommentServer.API.Domain.Entities;
+using Microsoft.AspNetCore.SignalR;
 using MockQueryable.Moq;
 using Moq;
+using System.Security.Claims;
 
 namespace HCL.CommentServer.API.Test
 {
@@ -16,7 +20,7 @@ namespace HCL.CommentServer.API.Test
                 CreatedDate = DateTime.Now,
                 Mark = comment.Mark,
                 Id = Guid.NewGuid(),
-                ArticleId= Guid.NewGuid().ToString(),
+                ArticleId = Guid.NewGuid().ToString(),
             };
             comments.Add(comm);
 
@@ -25,7 +29,7 @@ namespace HCL.CommentServer.API.Test
 
         public static Mock<ICommentRepository> CreateCommentRepositoryMock(List<Comment> comments)
         {
-            var commRep=new Mock<ICommentRepository>();
+            var commRep = new Mock<ICommentRepository>();
             var collectionQuerybleMock = comments.BuildMock();
             commRep.Setup(r => r
                 .AddAsync(It.IsAny<Comment>()))
@@ -60,6 +64,44 @@ namespace HCL.CommentServer.API.Test
                 });
 
             return commRep;
+        }
+
+        public static Mock<IEnumerable<ClaimsIdentity>> CreateClaimsIdentityListMock(Guid id)
+        {
+            List<ClaimsIdentity> claimsIdentities = new List<ClaimsIdentity>()
+            {
+                new ClaimsIdentity(new List<Claim>{ new Claim("Id",id.ToString())})
+            };
+
+            var mock = new Mock<IEnumerable<ClaimsIdentity>>();
+            mock.Setup(x => x.GetEnumerator())
+                .Returns(claimsIdentities.GetEnumerator());
+
+            return mock;
+        }
+
+        public static Mock<IHubCallerClients<ICommentHub>> CreateHubClientsHubMock()
+        {
+            var all = new Mock<IHubCallerClients<ICommentHub>>();
+            all.Setup(x => x.OthersInGroup(It.IsAny<string>())
+                .SendCommentInGroupAsync(It.IsAny<CommentDTO>(), It.IsAny<string>()));
+
+            return all;
+        }
+
+        public static Mock<HubCallerContext> CreteContextMock(string name, string connId, IEnumerable<ClaimsIdentity> claims)
+        {
+            var mockContext = new Mock<HubCallerContext>();
+            mockContext.Setup(u => u.User.Identity.Name)
+                .Returns(name);
+
+            mockContext.Setup(u => u.ConnectionId)
+                .Returns(connId);
+
+            mockContext.Setup(u => u.User.Identities)
+                .Returns(claims);
+
+            return mockContext;
         }
     }
 }
