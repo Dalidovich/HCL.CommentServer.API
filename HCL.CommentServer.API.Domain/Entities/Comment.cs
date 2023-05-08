@@ -7,7 +7,7 @@ namespace HCL.CommentServer.API.Domain.Entities
     {
         public Guid? Id { get; set; }
         public Guid AccountId { get; set; }
-        public Guid ArticleId { get; set; }
+        public string ArticleId { get; set; }
         public string Content { get; set; }
         public CommentMark Mark { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -16,7 +16,7 @@ namespace HCL.CommentServer.API.Domain.Entities
         {
         }
 
-        public Comment(CommentDTO commentDTO, Guid accountId, Guid articleId)
+        public Comment(CommentDTO commentDTO, Guid accountId, string articleId)
         {
             this.AccountId = accountId;
             Content = commentDTO.Content;

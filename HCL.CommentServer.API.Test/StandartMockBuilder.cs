@@ -17,6 +17,7 @@ namespace HCL.CommentServer.API.Test
                 CreatedDate = DateTime.Now,
                 Mark = comment.Mark,
                 Id = Guid.NewGuid(),
+                ArticleId= Guid.NewGuid().ToString(),
             };
             comments.Add(comm);
 

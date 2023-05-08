@@ -1,13 +1,8 @@
 ﻿using FluentAssertions;
-using HCL.CommentServer.API.BLL.Interfaces;
 using HCL.CommentServer.API.BLL.Services;
 using HCL.CommentServer.API.Controllers;
 using HCL.CommentServer.API.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Security.Principal;
 using Xunit;
 
 namespace HCL.CommentServer.API.Test.Controllers
