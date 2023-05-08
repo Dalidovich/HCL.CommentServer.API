@@ -2,7 +2,6 @@
 using HCL.CommentServer.API.Domain.Entities;
 using MockQueryable.Moq;
 using Moq;
-using System.Security.Principal;
 
 namespace HCL.CommentServer.API.Test
 {
