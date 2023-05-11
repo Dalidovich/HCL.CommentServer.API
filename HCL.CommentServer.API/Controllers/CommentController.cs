@@ -1,7 +1,10 @@
 ﻿using HCL.CommentServer.API.BLL.Interfaces;
+using HCL.CommentServer.API.Domain.DTO.Builders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace HCL.CommentServer.API.Controllers
 {
@@ -10,10 +13,27 @@ namespace HCL.CommentServer.API.Controllers
     public class CommentController : Controller
     {
         private readonly ICommentService _commentService;
+        private readonly ILogger<CommentController> _logger;
 
-        public CommentController(ICommentService commentService)
+        public CommentController(ICommentService commentService, ILogger<CommentController> logger)
         {
             _commentService = commentService;
+            _logger = logger;
+        }
+
+        [HttpGet("randomValue")]
+        public async Task<IActionResult> rndValue()
+        {
+            var rnd = new Random();
+            var value = rnd.Next(0, 100);
+
+            var log = new LogDTOBuidlder("rndValue")
+                .BuildMessage("generated random value")
+                .BuildSuccessState(value != null)
+                .Build();
+            _logger.LogInformation(JsonSerializer.Serialize(log));
+
+            return Ok(value);
         }
 
         [Authorize]
@@ -32,6 +52,12 @@ namespace HCL.CommentServer.API.Controllers
             else if (comment.AccountId == ownId)
             {
                 var resourse = await _commentService.DeleteComment(id);
+                var log = new LogDTOBuidlder("DeleteComment(ownId,id)")
+                .BuildMessage("authenticated account delete own comment")
+                .BuildSuccessState(resourse.Data)
+                .BuildStatusCode(204)
+                .Build();
+                _logger.LogInformation(JsonSerializer.Serialize(log));
 
                 return NoContent();
             }
@@ -53,6 +79,12 @@ namespace HCL.CommentServer.API.Controllers
                 return NotFound();
             }
             var resourse = await _commentService.DeleteComment(id);
+            var log = new LogDTOBuidlder("DeleteComment(id)")
+                .BuildMessage("admin account delete comment")
+                .BuildSuccessState(resourse.Data)
+                .BuildStatusCode(204)
+                .Build();
+            _logger.LogInformation(JsonSerializer.Serialize(log));
 
             return NoContent();
         }

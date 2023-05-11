@@ -17,6 +17,7 @@ namespace HCL.CommentServer.API
             builder.AddODataProperty();
             builder.AddHostedServices();
             builder.AddSignalRProperty();
+            builder.AddElasticserchProperty();
 
             builder.Services.AddDbContext<CommentAppDBContext>(opt => opt.UseNpgsql(
                 builder.Configuration.GetConnectionString(StandartConst.NameConnection)));

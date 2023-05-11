@@ -14,6 +14,7 @@ services:
       context: .
       dockerfile: HCL.CommentServer.API/Dockerfile
     environment:
+      - ElasticConfiguration__Uri=http://elasticsearch:9200
       - ConnectionStrings__NpgConnectionString=User Id=postgres; Password=pg; Server=app_db_hcl_comment; Port=5432; Database=HCL_Comment; IntegratedSecurity=true; Pooling=true;
     networks:
       - dev
@@ -33,5 +34,33 @@ services:
     networks:
       - dev
 
+  elasticsearch:
+   container_name: elasticsearch
+   image: elasticsearch:7.16.1
+   ports:
+    - 9200:9200
+   volumes:
+    - elasticsearch-data:/usr/share/elasticsearch/data
+   environment:
+    - xpack.monitoring.enabled=true
+    - xpack.watcher.enabled=false
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    - discovery.type=single-node
+   networks:
+      - dev
+
+  kibana:
+   container_name: kibana
+   image: kibana:7.16.1
+   ports:
+    - 5601:5601
+   depends_on:
+    - elasticsearch
+   environment:
+    - ELASTICSEARCH_URL=http://localhost:9200
+   networks:
+      - dev
+
 volumes:
   app_data_comment:
+  elasticsearch-data:
