@@ -21,21 +21,6 @@ namespace HCL.CommentServer.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet("randomValue")]
-        public async Task<IActionResult> rndValue()
-        {
-            var rnd = new Random();
-            var value = rnd.Next(0, 100);
-
-            var log = new LogDTOBuidlder("rndValue")
-                .BuildMessage("generated random value")
-                .BuildSuccessState(value != null)
-                .Build();
-            _logger.LogInformation(JsonSerializer.Serialize(log));
-
-            return Ok(value);
-        }
-
         [Authorize]
         [HttpDelete("v1/comment/account")]
         public async Task<IActionResult> DeleteComment([FromQuery] Guid ownId, [FromQuery] Guid id)

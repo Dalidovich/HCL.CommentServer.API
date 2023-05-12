@@ -31,7 +31,16 @@ namespace HCL.CommentServer.API
 
         public static ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration, string environment)
         {
-            //Environment.GetEnvironmentVariable("ElasticConfiguration__Uri");
+            if (Environment.GetEnvironmentVariable("ElasticConfiguration__Uri") != null)
+            {
+
+                return new ElasticsearchSinkOptions(new Uri(Environment.GetEnvironmentVariable("ElasticConfiguration__Uri")))
+                {
+                    AutoRegisterTemplate = true,
+                    IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name?.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
+                };
+            }
+
             return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]))
             {
                 AutoRegisterTemplate = true,

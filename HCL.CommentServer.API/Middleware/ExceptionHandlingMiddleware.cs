@@ -1,7 +1,10 @@
 ﻿using HCL.CommentServer.API.Domain.DTO;
+using HCL.CommentServer.API.Domain.DTO.Builders;
+using Newtonsoft.Json.Linq;
 using Npgsql;
 using System.Net;
 using System.Security.Authentication;
+using System.Text.Json;
 
 namespace HCL.CommentServer.API.Middleware
 {
@@ -55,7 +58,11 @@ namespace HCL.CommentServer.API.Middleware
 
         private async Task HandleExceptionAsync(HttpContext context, string exMsg, int httpStatusCode, string message)
         {
-            _logger.LogError(exMsg);
+            var log = new LogDTOBuidlder("rndValue")
+                .BuildMessage($"error - {exMsg}\nmessage - {message}")
+                .BuildStatusCode(httpStatusCode)
+                .Build();
+            _logger.LogError(JsonSerializer.Serialize(log));
 
             HttpResponse response = context.Response;
 

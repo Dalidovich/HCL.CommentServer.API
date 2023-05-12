@@ -8,6 +8,7 @@
         public LogDTOBuidlder(string executingMethod)
         {
             _Instance = new LogDTO(executingMethod);
+            _InstanceBuilder = this;
         }
 
         public LogDTOBuidlder BuildMessage(string message)
