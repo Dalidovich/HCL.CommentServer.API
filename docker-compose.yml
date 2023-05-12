@@ -1,8 +1,8 @@
 version: '3.4'
 
 networks:
-  dev:
-    driver: bridge
+  hclarticleserviceapi_dev:
+    external: true
 
 services:
   hcl.commentserver.api:
@@ -17,7 +17,7 @@ services:
       - ElasticConfiguration__Uri=http://elasticsearch:9200
       - ConnectionStrings__NpgConnectionString=User Id=postgres; Password=pg; Server=app_db_hcl_comment; Port=5432; Database=HCL_Comment; IntegratedSecurity=true; Pooling=true;
     networks:
-      - dev
+      - hclarticleserviceapi_dev
 
   app_db_hcl_comment: 
     image: postgres:latest
@@ -32,7 +32,7 @@ services:
     volumes:
       - app_data_comment:/var/lib/postgresql/data_comment
     networks:
-      - dev
+      - hclarticleserviceapi_dev
 
   elasticsearch:
    container_name: elasticsearch
@@ -47,7 +47,7 @@ services:
     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     - discovery.type=single-node
    networks:
-      - dev
+      - hclarticleserviceapi_dev
 
   kibana:
    container_name: kibana
@@ -59,7 +59,7 @@ services:
    environment:
     - ELASTICSEARCH_URL=http://localhost:9200
    networks:
-      - dev
+      - hclarticleserviceapi_dev
 
 volumes:
   app_data_comment:
