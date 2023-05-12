@@ -38,10 +38,10 @@ namespace HCL.CommentServer.API.Controllers
             {
                 var resourse = await _commentService.DeleteComment(id);
                 var log = new LogDTOBuidlder("DeleteComment(ownId,id)")
-                .BuildMessage("authenticated account delete own comment")
-                .BuildSuccessState(resourse.Data)
-                .BuildStatusCode(204)
-                .Build();
+                    .BuildMessage("authenticated account delete own comment")
+                    .BuildSuccessState(resourse.Data)
+                    .BuildStatusCode(204)
+                    .Build();
                 _logger.LogInformation(JsonSerializer.Serialize(log));
 
                 return NoContent();
