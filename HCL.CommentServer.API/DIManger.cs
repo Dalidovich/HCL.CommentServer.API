@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OData.ModelBuilder;
+using Serilog;
 using System.Text;
 
 namespace HCL.CommentServer.API
@@ -31,6 +32,12 @@ namespace HCL.CommentServer.API
         {
             webApplicationBuilder.Services.AddSignalR();
             webApplicationBuilder.Services.AddSingleton<ChatManager>();
+        }
+
+        public static void AddElasticserchProperty(this WebApplicationBuilder webApplicationBuilder)
+        {
+            ElasticsearchHelper.ConfigureLogging();
+            webApplicationBuilder.Host.UseSerilog();
         }
 
         public static void AddODataProperty(this WebApplicationBuilder webApplicationBuilder)

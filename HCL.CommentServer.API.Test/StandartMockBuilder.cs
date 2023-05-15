@@ -1,8 +1,10 @@
 ﻿using HCL.CommentServer.API.BLL.Hubs.Interfaces;
+using HCL.CommentServer.API.Controllers;
 using HCL.CommentServer.API.DAL.Repositories.Interfaces;
 using HCL.CommentServer.API.Domain.DTO;
 using HCL.CommentServer.API.Domain.Entities;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using MockQueryable.Moq;
 using Moq;
 using System.Security.Claims;
@@ -26,6 +28,8 @@ namespace HCL.CommentServer.API.Test
 
             return comm;
         }
+
+        public static readonly ILogger<CommentController> mockLoggerController = new Mock<ILogger<CommentController>>().Object;
 
         public static Mock<ICommentRepository> CreateCommentRepositoryMock(List<Comment> comments)
         {

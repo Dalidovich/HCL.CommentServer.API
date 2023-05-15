@@ -28,7 +28,7 @@ namespace HCL.CommentServer.API.Test.Controllers
             var mockCommRep = StandartMockBuilder.CreateCommentRepositoryMock(comments);
 
             var commServ = new CommentService(mockCommRep.Object);
-            var controller = new CommentController(commServ);
+            var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
 
             //Act
             var noContentResult = await controller.DeleteComment(accountId, commentId) as NoContentResult;
@@ -56,7 +56,7 @@ namespace HCL.CommentServer.API.Test.Controllers
             var mockCommRep = StandartMockBuilder.CreateCommentRepositoryMock(comments);
 
             var commServ = new CommentService(mockCommRep.Object);
-            var controller = new CommentController(commServ);
+            var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
 
             //Act
             var forbidResult = await controller.DeleteComment(Guid.NewGuid(), commentId) as ForbidResult;
@@ -83,7 +83,7 @@ namespace HCL.CommentServer.API.Test.Controllers
             var mockCommRep = StandartMockBuilder.CreateCommentRepositoryMock(comments);
 
             var commServ = new CommentService(mockCommRep.Object);
-            var controller = new CommentController(commServ);
+            var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
 
             //Act
             var notFoundResult = await controller.DeleteComment(Guid.NewGuid(), Guid.NewGuid()) as NotFoundResult;
@@ -111,7 +111,7 @@ namespace HCL.CommentServer.API.Test.Controllers
             var mockCommRep = StandartMockBuilder.CreateCommentRepositoryMock(comments);
 
             var commServ = new CommentService(mockCommRep.Object);
-            var controller = new CommentController(commServ);
+            var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
 
             //Act
             var noContentResult = await controller.DeleteComment(commentId) as NoContentResult;
@@ -138,7 +138,7 @@ namespace HCL.CommentServer.API.Test.Controllers
             var mockCommRep = StandartMockBuilder.CreateCommentRepositoryMock(comments);
 
             var commServ = new CommentService(mockCommRep.Object);
-            var controller = new CommentController(commServ);
+            var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
 
             //Act
             var notFoundResult = await controller.DeleteComment(Guid.NewGuid()) as NotFoundResult;

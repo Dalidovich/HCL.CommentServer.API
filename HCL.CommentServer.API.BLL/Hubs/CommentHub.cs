@@ -1,6 +1,7 @@
 ﻿using HCL.CommentServer.API.BLL.Hubs.Interfaces;
 using HCL.CommentServer.API.BLL.Interfaces;
 using HCL.CommentServer.API.Domain.DTO;
+using HCL.CommentServer.API.Domain.DTO.Builders;
 using HCL.CommentServer.API.Domain.DTO.SignalRDTO;
 using HCL.CommentServer.API.Domain.Entities;
 using HCL.CommentServer.API.Domain.Enums;
