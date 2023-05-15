@@ -3,7 +3,6 @@ using HCL.CommentServer.API.Domain.DTO.Builders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
 using System.Text.Json;
 
 namespace HCL.CommentServer.API.Controllers
@@ -19,7 +18,7 @@ namespace HCL.CommentServer.API.Controllers
         {
             _commentService = commentService;
             _logger = logger;
-        }
+        } 
 
         [Authorize]
         [HttpDelete("v1/comment/account")]
