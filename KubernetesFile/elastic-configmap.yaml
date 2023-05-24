@@ -1,0 +1,11 @@
+﻿# Create ConfigMap postgres-secret for the postgres app
+# Define default database name, user, and password
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: elastic-secret
+  labels:
+    app: elastic
+data:
+  ES_JAVA_OPTS: -Xms512m -Xmx512m
+  discovery.type: single-node

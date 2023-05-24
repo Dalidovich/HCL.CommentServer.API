@@ -1,0 +1,82 @@
+PostgreSQL
+
+kubectl apply -f postgres-configmap.yaml
+kubectl apply -f postgres-volume.yaml
+kubectl apply -f postgres-pvc.yaml
+kubectl apply -f postgres-deployment.yaml
+kubectl apply -f postgres-service.yaml
+
+kubectl get service
+
+C:\Users\Ilia\source\repos\HCL.CommentServer.API\KubernetesFile>kubectl get service
+NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+kubernetes   ClusterIP   10.96.0.1      <none>        443/TCP          4d23h
+postgres     NodePort    10.105.52.82   <none>        5432:30440/TCP   34s
+
+
+Elastic
+
+kubectl apply -f elastic-configmap.yaml
+kubectl apply -f elastic-volume.yaml
+kubectl apply -f elastic-pvc.yaml
+kubectl apply -f elastic-deployment.yaml
+kubectl apply -f elastic-service.yaml
+
+kubectl get service
+
+C:\Users\Ilia\source\repos\HCL.CommentServer.API\KubernetesFile>kubectl get service
+NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+elastic      NodePort    10.104.99.141   <none>        9200:32484/TCP   8s
+kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP          4d23h
+postgres     NodePort    10.105.52.82    <none>        5432:30440/TCP   3m43s
+
+Kibana
+
+in kibana.yaml change ELASTICSEARCH_HOSTS to your Elastic ip (my is 10.104.99.141)
+- name: ELASTICSEARCH_HOSTS
+  value: "http://10.104.99.141:9200"
+
+kubectl apply -f kibana.yaml
+
+
+HCL.CommentServer.API
+
+create docker image 
+
+docker build -t hclcommentserverapi -f HCL.CommentServer.API/. .
+
+adjust environment variables docker image
+env:
+  - name: ASPNETCORE_URLS
+    value: http://+:80
+  - name: "ElasticConfiguration__Uri"
+    value: "http://10.104.99.141:9200"
+  - name: "ConnectionStrings__NpgConnectionString"
+    value: "User Id=postgres; Password=pg; Server=10.105.52.82; Port=5432; Database=HCL_Comment; IntegratedSecurity=true; Pooling=true;"
+
+
+kubectl apply -f .\k8s-docker-desktop-deploy.yml
+
+
+
+
+
+
+
+
+kubectl delete -f .\k8s-docker-desktop-deploy.yml
+kubectl delete -f kibana.yaml
+kubectl delete -f elastic-service.yaml
+kubectl delete -f elastic-deployment.yaml
+kubectl delete -f elastic-pvc.yaml
+kubectl delete -f elastic-volume.yaml
+kubectl delete -f elastic-configmap.yaml
+kubectl delete -f postgres-service.yaml
+kubectl delete -f postgres-deployment.yaml
+kubectl delete -f postgres-pvc.yaml
+kubectl delete -f postgres-volume.yaml
+kubectl delete -f postgres-configmap.yaml
+
+
+
+

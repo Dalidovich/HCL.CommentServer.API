@@ -14,9 +14,10 @@ namespace HCL.CommentServer.API.BLL.Services
         private readonly ICommentRepository _commentRepository;
         private readonly ILogger<CommentService> _logger;
 
-        public CommentService(ICommentRepository commentRepository)
+        public CommentService(ICommentRepository commentRepository, ILogger<CommentService> logger)
         {
             _commentRepository = commentRepository;
+            _logger = logger;
         }
 
         public async Task<BaseResponse<Comment>> CreateComment(Comment comment)

@@ -58,7 +58,7 @@ namespace HCL.CommentServer.API.Middleware
 
         private async Task HandleExceptionAsync(HttpContext context, string exMsg, int httpStatusCode, string message)
         {
-            var log = new LogDTOBuidlder("rndValue")
+            var log = new LogDTOBuidlder("HandleExceptionAsync")
                 .BuildMessage($"error - {exMsg}\nmessage - {message}")
                 .BuildStatusCode(httpStatusCode)
                 .Build();
