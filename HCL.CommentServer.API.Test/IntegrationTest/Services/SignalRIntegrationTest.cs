@@ -1,30 +1,44 @@
-﻿using FluentAssertions;
+﻿using DotNet.Testcontainers.Containers;
+using FluentAssertions;
 using HCL.CommentServer.API.BLL.Hubs;
 using HCL.CommentServer.API.BLL.Services;
+using HCL.CommentServer.API.DAL;
+using HCL.CommentServer.API.DAL.Repositories;
 using HCL.CommentServer.API.Domain.DTO;
 using HCL.CommentServer.API.Domain.DTO.SignalRDTO;
-using HCL.CommentServer.API.Domain.Entities;
+using HCL.CommentServer.API.Domain.Enums;
+using HCL.CommentServer.API.Test.IntegrationTest;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
 
 namespace HCL.CommentServer.API.Test.Services
 {
-    public class SignalRTest
+    public class SignalRIntegrationTest
     {
         [Fact]
         public async Task CreateComment_CreateWithSignalr_ReturnNewComment()
         {
             //Arrange
-            List<Comment> comments = new List<Comment>();
+            IContainer pgContainer = TestContainerBuilder.CreatePostgreSQLContainer();
+            await pgContainer.StartAsync();
+            var webHost = CustomTestHostBuilder.Build(TestContainerBuilder.npgsqlUser, TestContainerBuilder.npgsqlPassword
+                , "localhost", pgContainer.GetMappedPublicPort(5432), TestContainerBuilder.npgsqlDB);
+
+            using var scope = webHost.Services.CreateScope();
+            var commentAppDBContext = scope.ServiceProvider.GetRequiredService<CommentAppDBContext>();
+
+
+            var commRep = new CommentRepository(commentAppDBContext);
+
+            var commServ = new CommentService(commRep, StandartMockBuilder.mockLoggerCommentService);
 
             string group = Guid.NewGuid().ToString();
             var id = Guid.NewGuid();
 
-            var mockCommRep = StandartMockBuilder.CreateCommentRepositoryMock(comments);
-
             var chatManager = new ChatManager();
-            var commServ = new CommentService(mockCommRep.Object, StandartMockBuilder.mockLoggerCommentService);
             var hub = new CommentHub(chatManager, commServ);
 
             var all = StandartMockBuilder.CreateHubClientsHubMock();
@@ -38,7 +52,7 @@ namespace HCL.CommentServer.API.Test.Services
             var commentDto = new CommentDTO()
             {
                 Content = "1",
-                Mark = Domain.Enums.CommentMark.Normal
+                Mark = CommentMark.Bad
             };
 
             //Act
@@ -47,9 +61,8 @@ namespace HCL.CommentServer.API.Test.Services
             await hub.SendCommentInGroupAsync(commentDto, group);
 
             //Assert
-            comments.Should().NotBeEmpty();
-            comments.Should().ContainSingle();
-            comments.Where(x => x.Content == "1").SingleOrDefault().Mark.Should().Be(commentDto.Mark);
+            var comment = await commServ.GetCommentOData().Data.Where(x => x.Content == commentDto.Content && x.Mark == commentDto.Mark).SingleOrDefaultAsync();
+            comment.Should().NotBeNull();
         }
     }
 }
