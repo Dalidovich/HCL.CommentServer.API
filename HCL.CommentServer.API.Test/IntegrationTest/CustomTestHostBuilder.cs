@@ -34,7 +34,7 @@ namespace HCL.CommentServer.API.Test.IntegrationTest
                     var scopedServices = scope.ServiceProvider;
                     var context = scopedServices.GetRequiredService<CommentAppDBContext>();
                     context.Database.EnsureDeleted();
-                    context.Database.EnsureCreated();
+                    context.Database.Migrate();
                 });
             });
         }
