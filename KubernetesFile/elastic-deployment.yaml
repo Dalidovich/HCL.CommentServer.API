@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment # Create a deployment
+metadata:
+  name: elastic # Set the name of the deployment
+spec:
+  replicas: 1 # Set 3 deployment replicas
+  selector:
+    matchLabels:
+      app: elastic
+  template:
+    metadata:
+      labels:
+        app: elastic
+    spec:
+      containers:
+        - name: elastic
+          image: elasticsearch:7.16.1 # Docker image
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 9200 # Exposing the container port 5432 for PostgreSQL client connections.
+          envFrom:
+            - configMapRef:
+                name: elastic-secret # Using the ConfigMap elastic-secret
+          volumeMounts:
+            - mountPath: /var/lib/elastic-kubernetes/data
+              name: elasticdata
+      volumes:
+        - name: elasticdata
+          persistentVolumeClaim:
+            claimName: elastic-volume-claim

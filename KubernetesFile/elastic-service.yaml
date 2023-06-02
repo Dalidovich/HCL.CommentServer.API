@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service # Create service
+metadata:
+  name: elastic # Sets the service name
+  labels:
+    app: elastic # Defines app to create service for
+spec:
+  type: NodePort # Sets the service type
+  ports:
+    - port: 9200 # Sets the port to run the elastic application
+  selector:
+    app: elastic
