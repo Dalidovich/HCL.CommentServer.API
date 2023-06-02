@@ -7,12 +7,9 @@ using HCL.CommentServer.API.DAL.Repositories;
 using HCL.CommentServer.API.Domain.Entities;
 using HCL.CommentServer.API.Domain.Enums;
 using HCL.CommentServer.API.Test.IntegrationTest;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using System.Xml.Linq;
 using Xunit;
 
 namespace HCL.CommentServer.API.Test.Controllers

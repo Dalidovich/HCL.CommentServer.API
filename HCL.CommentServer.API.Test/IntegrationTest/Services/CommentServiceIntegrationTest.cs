@@ -1,18 +1,14 @@
-﻿using FluentAssertions;
+﻿using DotNet.Testcontainers.Containers;
+using FluentAssertions;
 using HCL.CommentServer.API.BLL.Services;
-using HCL.CommentServer.API.DAL.Repositories;
 using HCL.CommentServer.API.DAL;
+using HCL.CommentServer.API.DAL.Repositories;
 using HCL.CommentServer.API.Domain.Entities;
 using HCL.CommentServer.API.Domain.Enums;
 using HCL.CommentServer.API.Test.IntegrationTest;
-using Xunit;
-using DotNet.Testcontainers.Containers;
-using Microsoft.Extensions.DependencyInjection;
-using System.Xml.Linq;
-using System.Security.Principal;
-using HCL.CommentServer.API.Controllers;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
+using Xunit;
 
 namespace HCL.CommentServer.API.Test.Services
 {
