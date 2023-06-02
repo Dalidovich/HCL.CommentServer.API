@@ -31,15 +31,15 @@ namespace HCL.CommentServer.API.Test.Services
             var commentAppDBContext = scope.ServiceProvider.GetRequiredService<CommentAppDBContext>();
 
 
-            var commRep = new CommentRepository(commentAppDBContext);
+            var commRepository = new CommentRepository(commentAppDBContext);
 
-            var commServ = new CommentService(commRep, StandartMockBuilder.mockLoggerCommentService);
+            var commService = new CommentService(commRepository, StandartMockBuilder.mockLoggerCommentService);
 
             string group = Guid.NewGuid().ToString();
             var id = Guid.NewGuid();
 
             var chatManager = new ChatManager();
-            var hub = new CommentHub(chatManager, commServ);
+            var hub = new CommentHub(chatManager, commService);
 
             var all = StandartMockBuilder.CreateHubClientsHubMock();
             var mockClaims = StandartMockBuilder.CreateClaimsIdentityListMock(id);
@@ -61,7 +61,12 @@ namespace HCL.CommentServer.API.Test.Services
             await hub.SendCommentInGroupAsync(commentDto, group);
 
             //Assert
-            var comment = await commServ.GetCommentOData().Data.Where(x => x.Content == commentDto.Content && x.Mark == commentDto.Mark).SingleOrDefaultAsync();
+            var comment = await commService.GetCommentOData().Data
+                .Where(x => 
+                x.Content == commentDto.Content 
+                &&
+                x.Mark == commentDto.Mark)
+                .SingleOrDefaultAsync();
             comment.Should().NotBeNull();
         }
     }

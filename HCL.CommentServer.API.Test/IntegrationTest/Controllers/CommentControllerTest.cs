@@ -7,14 +7,41 @@ using HCL.CommentServer.API.DAL.Repositories;
 using HCL.CommentServer.API.Domain.Entities;
 using HCL.CommentServer.API.Domain.Enums;
 using HCL.CommentServer.API.Test.IntegrationTest;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using System.Xml.Linq;
 using Xunit;
 
 namespace HCL.CommentServer.API.Test.Controllers
 {
-    public class CommentControllerIntegrationTest
+    public class CommentControllerIntegrationTest : IAsyncLifetime
     {
+        private IContainer pgContainer = TestContainerBuilder.CreatePostgreSQLContainer();
+        private CommentController commentController;
+        private CommentRepository commentRepository;
+        private WebApplicationFactory<Program> webHost;
+
+        public async Task InitializeAsync()
+        {
+            await pgContainer.StartAsync();
+            webHost = CustomTestHostBuilder.Build(TestContainerBuilder.npgsqlUser, TestContainerBuilder.npgsqlPassword,
+                "localhost", pgContainer.GetMappedPublicPort(5432), TestContainerBuilder.npgsqlDB);
+            
+            var scope = webHost.Services.CreateScope();
+            var commentAppDBContext = scope.ServiceProvider.GetRequiredService<CommentAppDBContext>();
+            commentRepository = new CommentRepository(commentAppDBContext);
+            var commService = new CommentService(commentRepository, StandartMockBuilder.mockLoggerCommentService);
+            commentController = new CommentController(commService, StandartMockBuilder.mockLoggerController);
+        }
+
+        public async Task DisposeAsync()
+        {
+            await pgContainer.DisposeAsync();
+        }
+
         [Fact]
         public async Task DeleteComment_WhenExistCommentIsMine_ReturnNoContent()
         {
@@ -33,27 +60,14 @@ namespace HCL.CommentServer.API.Test.Controllers
                     Mark=CommentMark.Normal
                 }
             };
-            IContainer pgContainer = TestContainerBuilder.CreatePostgreSQLContainer();
-            await pgContainer.StartAsync();
-            var webHost = CustomTestHostBuilder.Build(TestContainerBuilder.npgsqlUser, TestContainerBuilder.npgsqlPassword
-                , "localhost", pgContainer.GetMappedPublicPort(5432), TestContainerBuilder.npgsqlDB, comments);
-
-            using var scope = webHost.Services.CreateScope();
-            var commentAppDBContext = scope.ServiceProvider.GetRequiredService<CommentAppDBContext>();
-
-
-            var commRep = new CommentRepository(commentAppDBContext);
-
-            var commServ = new CommentService(commRep, StandartMockBuilder.mockLoggerCommentService);
-            var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
+            
+            await CustomTestHostBuilder.AddCommentInDBNotTracked(webHost, comments);
 
             //Act
-            var noContentResult = await controller.DeleteComment(accountId, commentId) as NoContentResult;
+            var noContentResult = await commentController.DeleteComment(accountId, commentId) as NoContentResult;
 
             //Assert
             noContentResult.Should().NotBeNull();
-
-            await pgContainer.DisposeAsync();
         }
 
         [Fact]
@@ -73,27 +87,14 @@ namespace HCL.CommentServer.API.Test.Controllers
                     Mark=CommentMark.Normal
                 }
             };
-            IContainer pgContainer = TestContainerBuilder.CreatePostgreSQLContainer();
-            await pgContainer.StartAsync();
-            var webHost = CustomTestHostBuilder.Build(TestContainerBuilder.npgsqlUser, TestContainerBuilder.npgsqlPassword
-                , "localhost", pgContainer.GetMappedPublicPort(5432), TestContainerBuilder.npgsqlDB, comments);
 
-            using var scope = webHost.Services.CreateScope();
-            var commentAppDBContext = scope.ServiceProvider.GetRequiredService<CommentAppDBContext>();
-
-
-            var commRep = new CommentRepository(commentAppDBContext);
-
-            var commServ = new CommentService(commRep, StandartMockBuilder.mockLoggerCommentService);
-            var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
+            await CustomTestHostBuilder.AddCommentInDBNotTracked(webHost, comments);
 
             //Act
-            var forbidResult = await controller.DeleteComment(Guid.NewGuid(), commentId) as ForbidResult;
+            var forbidResult = await commentController.DeleteComment(Guid.NewGuid(), commentId) as ForbidResult;
 
             //Assert
             forbidResult.Should().NotBeNull();
-
-            await pgContainer.DisposeAsync();
         }
 
         [Fact]
@@ -112,27 +113,14 @@ namespace HCL.CommentServer.API.Test.Controllers
                     Mark=CommentMark.Normal
                 }
             };
-            IContainer pgContainer = TestContainerBuilder.CreatePostgreSQLContainer();
-            await pgContainer.StartAsync();
-            var webHost = CustomTestHostBuilder.Build(TestContainerBuilder.npgsqlUser, TestContainerBuilder.npgsqlPassword
-                , "localhost", pgContainer.GetMappedPublicPort(5432), TestContainerBuilder.npgsqlDB, comments);
 
-            using var scope = webHost.Services.CreateScope();
-            var commentAppDBContext = scope.ServiceProvider.GetRequiredService<CommentAppDBContext>();
-
-
-            var commRep = new CommentRepository(commentAppDBContext);
-
-            var commServ = new CommentService(commRep, StandartMockBuilder.mockLoggerCommentService);
-            var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
+            await CustomTestHostBuilder.AddCommentInDBNotTracked(webHost, comments);
 
             //Act
-            var notFoundResult = await controller.DeleteComment(Guid.NewGuid(), Guid.NewGuid()) as NotFoundResult;
+            var notFoundResult = await commentController.DeleteComment(Guid.NewGuid(), Guid.NewGuid()) as NotFoundResult;
 
             //Assert
             notFoundResult.Should().NotBeNull();
-
-            await pgContainer.DisposeAsync();
         }
 
         [Fact]
@@ -152,27 +140,14 @@ namespace HCL.CommentServer.API.Test.Controllers
                     Mark=CommentMark.Normal
                 }
             };
-            IContainer pgContainer = TestContainerBuilder.CreatePostgreSQLContainer();
-            await pgContainer.StartAsync();
-            var webHost = CustomTestHostBuilder.Build(TestContainerBuilder.npgsqlUser, TestContainerBuilder.npgsqlPassword
-                , "localhost", pgContainer.GetMappedPublicPort(5432), TestContainerBuilder.npgsqlDB, comments);
 
-            using var scope = webHost.Services.CreateScope();
-            var commentAppDBContext = scope.ServiceProvider.GetRequiredService<CommentAppDBContext>();
-
-
-            var commRep = new CommentRepository(commentAppDBContext);
-
-            var commServ = new CommentService(commRep, StandartMockBuilder.mockLoggerCommentService);
-            var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
+            await CustomTestHostBuilder.AddCommentInDBNotTracked(webHost, comments);
 
             //Act
-            var noContentResult = await controller.DeleteComment(commentId) as NoContentResult;
+            var noContentResult = await commentController.DeleteComment(commentId) as NoContentResult;
 
             //Assert
             noContentResult.Should().NotBeNull();
-
-            await pgContainer.DisposeAsync();
         }
 
         [Fact]
@@ -191,27 +166,15 @@ namespace HCL.CommentServer.API.Test.Controllers
                     Mark=CommentMark.Normal
                 }
             };
-            IContainer pgContainer = TestContainerBuilder.CreatePostgreSQLContainer();
-            await pgContainer.StartAsync();
-            var webHost = CustomTestHostBuilder.Build(TestContainerBuilder.npgsqlUser, TestContainerBuilder.npgsqlPassword
-                , "localhost", pgContainer.GetMappedPublicPort(5432), TestContainerBuilder.npgsqlDB, comments);
 
-            using var scope = webHost.Services.CreateScope();
-            var commentAppDBContext = scope.ServiceProvider.GetRequiredService<CommentAppDBContext>();
-
-
-            var commRep = new CommentRepository(commentAppDBContext);
-
-            var commServ = new CommentService(commRep, StandartMockBuilder.mockLoggerCommentService);
-            var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
+            comments.ForEach(async x => await commentRepository.AddAsync(x));
+            await commentRepository.SaveAsync();
 
             //Act
-            var notFoundResult = await controller.DeleteComment(Guid.NewGuid()) as NotFoundResult;
+            var notFoundResult = await commentController.DeleteComment(Guid.NewGuid()) as NotFoundResult;
 
             //Assert
             notFoundResult.Should().NotBeNull();
-
-            await pgContainer.DisposeAsync();
         }
     }
 }
