@@ -1,0 +1,15 @@
+﻿apiVersion: v1
+kind: PersistentVolume # Create PV 
+metadata:
+  name: elastic-volume # Sets PV name
+  labels:
+    type: local # Sets PV's type
+    app: elastic
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi # Sets PV's size
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/data/elastic" # Sets PV's host path

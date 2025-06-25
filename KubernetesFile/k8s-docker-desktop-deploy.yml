@@ -1,0 +1,47 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapi
+  labels:
+    app: kube-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: webapi
+  template:
+    metadata:
+      labels:
+        app: kube-app
+        service: webapi
+    spec:
+      containers:
+        - name: webapicontainer
+          image: hclcommentserverapi  
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:80
+            - name: "ElasticConfiguration__Uri"
+              value: "http://10.100.49.167:9200"
+            - name: "ConnectionStrings__NpgConnectionString"
+              value: "User Id=postgres; Password=pg; Server=10.110.218.64; Port=5432; Database=HCL_Comment; IntegratedSecurity=true; Pooling=true;"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapiservice
+  labels:
+    app: kube-app
+    service: webapi
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort : 80
+      protocol: TCP
+  selector:
+    service: webapi

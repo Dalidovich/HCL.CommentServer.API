@@ -1,3 +1,7 @@
+using HCL.CommentServer.API.DAL;
+using HCL.CommentServer.API.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
+
 namespace HCL.CommentServer.API
 {
     public class Program
@@ -6,7 +10,17 @@ namespace HCL.CommentServer.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Services.AddSingleton(builder.Configuration);
+            builder.AddRepositores();
+            builder.AddServices();
+            builder.AddAuthProperty();
+            builder.AddODataProperty();
+            builder.AddHostedServices();
+            builder.AddSignalRProperty();
+            builder.AddElasticserchProperty();
+
+            builder.Services.AddDbContext<CommentAppDBContext>(opt => opt.UseNpgsql(
+                builder.Configuration.GetConnectionString(StandartConst.NameConnection)));
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -14,11 +28,13 @@ namespace HCL.CommentServer.API
 
             var app = builder.Build();
 
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.AddMiddleware();
+            app.AddSignalR();
 
             app.UseHttpsRedirection();
             app.UseAuthorization();
