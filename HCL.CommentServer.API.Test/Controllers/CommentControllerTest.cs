@@ -27,7 +27,7 @@ namespace HCL.CommentServer.API.Test.Controllers
 
             var mockCommRep = StandartMockBuilder.CreateCommentRepositoryMock(comments);
 
-            var commServ = new CommentService(mockCommRep.Object);
+            var commServ = new CommentService(mockCommRep.Object, StandartMockBuilder.mockLoggerCommentService);
             var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
 
             //Act
@@ -55,7 +55,7 @@ namespace HCL.CommentServer.API.Test.Controllers
 
             var mockCommRep = StandartMockBuilder.CreateCommentRepositoryMock(comments);
 
-            var commServ = new CommentService(mockCommRep.Object);
+            var commServ = new CommentService(mockCommRep.Object, StandartMockBuilder.mockLoggerCommentService);
             var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
 
             //Act
@@ -82,7 +82,7 @@ namespace HCL.CommentServer.API.Test.Controllers
 
             var mockCommRep = StandartMockBuilder.CreateCommentRepositoryMock(comments);
 
-            var commServ = new CommentService(mockCommRep.Object);
+            var commServ = new CommentService(mockCommRep.Object, StandartMockBuilder.mockLoggerCommentService);
             var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
 
             //Act
@@ -110,7 +110,7 @@ namespace HCL.CommentServer.API.Test.Controllers
 
             var mockCommRep = StandartMockBuilder.CreateCommentRepositoryMock(comments);
 
-            var commServ = new CommentService(mockCommRep.Object);
+            var commServ = new CommentService(mockCommRep.Object, StandartMockBuilder.mockLoggerCommentService);
             var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
 
             //Act
@@ -137,7 +137,7 @@ namespace HCL.CommentServer.API.Test.Controllers
 
             var mockCommRep = StandartMockBuilder.CreateCommentRepositoryMock(comments);
 
-            var commServ = new CommentService(mockCommRep.Object);
+            var commServ = new CommentService(mockCommRep.Object, StandartMockBuilder.mockLoggerCommentService);
             var controller = new CommentController(commServ, StandartMockBuilder.mockLoggerController);
 
             //Act

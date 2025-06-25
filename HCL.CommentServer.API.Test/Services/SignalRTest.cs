@@ -24,7 +24,7 @@ namespace HCL.CommentServer.API.Test.Services
             var mockCommRep = StandartMockBuilder.CreateCommentRepositoryMock(comments);
 
             var chatManager = new ChatManager();
-            var commServ = new CommentService(mockCommRep.Object);
+            var commServ = new CommentService(mockCommRep.Object, StandartMockBuilder.mockLoggerCommentService);
             var hub = new CommentHub(chatManager, commServ);
 
             var all = StandartMockBuilder.CreateHubClientsHubMock();

@@ -1,4 +1,5 @@
 ﻿using HCL.CommentServer.API.BLL.Hubs.Interfaces;
+using HCL.CommentServer.API.BLL.Services;
 using HCL.CommentServer.API.Controllers;
 using HCL.CommentServer.API.DAL.Repositories.Interfaces;
 using HCL.CommentServer.API.Domain.DTO;
@@ -30,6 +31,7 @@ namespace HCL.CommentServer.API.Test
         }
 
         public static readonly ILogger<CommentController> mockLoggerController = new Mock<ILogger<CommentController>>().Object;
+        public static readonly ILogger<CommentService> mockLoggerCommentService = new Mock<ILogger<CommentService>>().Object;
 
         public static Mock<ICommentRepository> CreateCommentRepositoryMock(List<Comment> comments)
         {

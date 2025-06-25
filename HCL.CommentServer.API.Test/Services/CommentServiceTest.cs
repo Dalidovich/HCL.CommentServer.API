@@ -16,7 +16,7 @@ namespace HCL.CommentServer.API.Test.Services
 
             var commRepMock=StandartMockBuilder.CreateCommentRepositoryMock(comments);
 
-            var commServ=new CommentService(commRepMock.Object);
+            var commServ=new CommentService(commRepMock.Object, StandartMockBuilder.mockLoggerCommentService);
             var newComment = new Comment()
             {
                 Content = "1",
@@ -53,7 +53,7 @@ namespace HCL.CommentServer.API.Test.Services
             };
             var commRepMock = StandartMockBuilder.CreateCommentRepositoryMock(comments);
 
-            var commServ = new CommentService(commRepMock.Object);
+            var commServ = new CommentService(commRepMock.Object, StandartMockBuilder.mockLoggerCommentService);
 
             //Act
             var deleteConfirm = await commServ.DeleteComment(commentId);
@@ -72,7 +72,7 @@ namespace HCL.CommentServer.API.Test.Services
             List<Comment> comments = new List<Comment>();
             var commRepMock = StandartMockBuilder.CreateCommentRepositoryMock(comments);
 
-            var commServ = new CommentService(commRepMock.Object);
+            var commServ = new CommentService(commRepMock.Object, StandartMockBuilder.mockLoggerCommentService);
 
             //Act
             var deleteConfirm = await commServ.DeleteComment(Guid.NewGuid());
